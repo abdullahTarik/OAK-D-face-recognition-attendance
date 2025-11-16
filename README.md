@@ -72,7 +72,7 @@ Attendance Recording (CSV)
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/abdullahTarik/face-recognition-attendance
 cd ML
 ```
 
