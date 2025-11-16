@@ -8,9 +8,15 @@ _Seamless Recognition, Effortless Attendance, Limitless Possibilities_
 
 <br/>
 
-<img src="https://img.shields.io/github/last-commit/username/repo?label=last%20commit" />
-<img src="https://img.shields.io/badge/python-56.8%25-blue" />
-<img src="https://img.shields.io/badge/languages-4-blue" />
+<a href="https://github.com/abdullahTarik/OAK-D-face-recognition-attendance">
+    <img src="https://img.shields.io/github/last-commit/abdullahTarik/OAK-D-face-recognition-attendance?label=last%20commit" />
+</a>
+<a href="https://github.com/abdullahTarik/OAK-D-face-recognition-attendance">
+    <img src="https://img.shields.io/github/languages/top/abdullahTarik/OAK-D-face-recognition-attendance?label=python" />
+</a>
+<a href="https://github.com/abdullahTarik/OAK-D-face-recognition-attendance">
+    <img src="https://img.shields.io/github/languages/count/abdullahTarik/OAK-D-face-recognition-attendance?label=languages" />
+</a>
 
 <br/>
 
