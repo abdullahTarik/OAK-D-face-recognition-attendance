@@ -22,8 +22,10 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-*.gitkeep
 
+!static/embeddings/.gitkeep
+!static/faces/.gitkeep
+!static/images/.gitkeep
 # Face recognition models and embeddings
 *.pkl
 !static/face_recognition_model.pkl  # Include this for backward compatibility
