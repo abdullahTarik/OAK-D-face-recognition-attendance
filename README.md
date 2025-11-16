@@ -42,6 +42,9 @@ _Built with the tools and technologies:_
 <br/><br/>
 
 </div>
+
+## Overview
+
 A modern, real-time face recognition attendance system built with OAK-D camera, Flask backend, and React frontend. The system uses advanced face embedding extraction for accurate recognition and provides a beautiful, responsive web interface for managing attendance and users.
 
 ![Face Recognition System](imgs/example.gif)
