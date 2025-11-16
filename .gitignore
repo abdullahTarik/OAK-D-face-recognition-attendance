@@ -23,16 +23,16 @@ wheels/
 .installed.cfg
 *.egg
 
+# Track .gitkeep in empty folders
 !static/embeddings/.gitkeep
 !static/faces/.gitkeep
 !static/images/.gitkeep
+
 # Face recognition models and embeddings
 *.pkl
 !static/face_recognition_model.pkl  # Include this for backward compatibility
-static/embeddings/
-
-# Face images (user enrollment data - should not be in repo)
-static/faces/
+static/embeddings/*                 # Ignore everything else in embeddings
+static/faces/*                      # Ignore everything else in faces
 
 # Attendance CSV files (optional - remove if you want to track these)
 Attendance/*.csv
@@ -61,4 +61,3 @@ node_modules/
 # Compiled files
 *.pyc
 *.pyo
-
