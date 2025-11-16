@@ -6,7 +6,6 @@
 
 _Seamless Recognition, Effortless Attendance, Limitless Possibilities_
 
-<br/>
 
 <a href="https://github.com/abdullahTarik/OAK-D-face-recognition-attendance">
     <img src="https://img.shields.io/github/last-commit/abdullahTarik/OAK-D-face-recognition-attendance?label=last%20commit" />
@@ -23,7 +22,6 @@ _Seamless Recognition, Effortless Attendance, Limitless Possibilities_
 
 _Built with the tools and technologies:_
 
-<br/>
 
 <img src="https://img.shields.io/badge/Flask-black?logo=flask&logoColor=white" />
 <img src="https://img.shields.io/badge/JSON-orange?logo=json&logoColor=white" />
@@ -47,6 +45,8 @@ _Built with the tools and technologies:_
 A modern, real-time face recognition attendance system built with OAK-D camera, Flask backend, and React frontend. The system uses advanced face embedding extraction for accurate recognition and provides a beautiful, responsive web interface for managing attendance and users.
 
 ![Face Recognition System](imgs/example.gif)
+
+Image is taken from [here](https://www.pexels.com/photo/multi-cultural-people-3184419/).
 
 ## 🎯 Features
 
