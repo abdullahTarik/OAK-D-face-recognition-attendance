@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+
+<style type='text/css'>
+    * {
+        padding: 0;
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        background-image: url('{{ url_for('static', filename='images/1.png') }}');
+        background-size: cover;
+        font-family: sans-serif;
+        margin-top: 40px;
+        height: 100vh;
+        padding: 0;
+        margin: 0;
+    }
+</style>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <title>Settings - Face Recognition Attendance System</title>
+</head>
+
+<body>
+    <div class='mt-3 text-center'>
+        <h1 style="width: auto;margin: auto;color: white;padding: 11px;font-size: 44px;">System Settings
+            <i class="material-icons">settings</i>
+        </h1>
+    </div>
+
+    {% if mess %}
+    <p class="text-center" style="color: red;font-size: 20px;">{{ mess }}</p>
+    {% endif %}
+
+    <div class="container" style="max-width: 800px; margin: 20px auto;">
+        <div style="border-radius: 20px;padding: 20px;background-color:rgb(211,211,211,0.8);">
+            <form action='/settings' method="POST">
+                <h2 style="border-radius: 20px 20px 0px 0px;background-color: #0b4c61;color: white;padding: 10px;margin-bottom: 20px;">
+                    Configuration Settings <i class="material-icons">tune</i>
+                </h2>
+
+                <!-- Auto Attendance Settings -->
+                <div style="background-color: white; padding: 15px; margin-bottom: 15px; border-radius: 10px;">
+                    <h4 style="color: #0b4c61; margin-bottom: 15px;">
+                        <i class="material-icons">schedule</i> Auto Attendance Settings
+                    </h4>
+                    <div class="mb-3">
+                        <label for="auto_attendance_interval" style="font-size: 18px; font-weight: bold;">
+                            Auto Attendance Interval (minutes):
+                        </label>
+                        <input type="number" id="auto_attendance_interval" name="auto_attendance_interval"
+                            value="{{ settings.auto_attendance_interval_minutes }}" min="1" max="120"
+                            style="font-size: 18px; width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">
+                        <small style="color: #666;">How often to automatically take attendance (1-120 minutes)</small>
+                    </div>
+                </div>
+
+                <!-- Enrollment Settings -->
+                <div style="background-color: white; padding: 15px; margin-bottom: 15px; border-radius: 10px;">
+                    <h4 style="color: #0b4c61; margin-bottom: 15px;">
+                        <i class="material-icons">person_add</i> Enrollment Settings
+                    </h4>
+                    <div class="mb-3">
+                        <label for="nimgs" style="font-size: 18px; font-weight: bold;">
+                            Number of Images to Capture:
+                        </label>
+                        <input type="number" id="nimgs" name="nimgs"
+                            value="{{ settings.nimgs }}" min="5" max="50"
+                            style="font-size: 18px; width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">
+                        <small style="color: #666;">Number of face images to capture when adding a new user (5-50)</small>
+                    </div>
+                </div>
+
+                <!-- Recognition Settings -->
+                <div style="background-color: white; padding: 15px; margin-bottom: 15px; border-radius: 10px;">
+                    <h4 style="color: #0b4c61; margin-bottom: 15px;">
+                        <i class="material-icons">face</i> Recognition Settings
+                    </h4>
+                    <div class="mb-3">
+                        <label for="pipeline_timeout" style="font-size: 18px; font-weight: bold;">
+                            Recognition Session Timeout (seconds):
+                        </label>
+                        <input type="number" id="pipeline_timeout" name="pipeline_timeout"
+                            value="{{ settings.pipeline_timeout }}" min="10" max="300"
+                            style="font-size: 18px; width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">
+                        <small style="color: #666;">How long the recognition session runs (10-300 seconds)</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="match_distance_threshold" style="font-size: 18px; font-weight: bold;">
+                            Face Match Distance Threshold:
+                        </label>
+                        <input type="number" id="match_distance_threshold" name="match_distance_threshold"
+                            value="{{ settings.match_distance_threshold }}" min="1000" max="10000" step="100"
+                            style="font-size: 18px; width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">
+                        <small style="color: #666;">Lower = stricter matching, Higher = more lenient (1000-10000)</small>
+                    </div>
+                </div>
+
+                <!-- Stability Settings -->
+                <div style="background-color: white; padding: 15px; margin-bottom: 15px; border-radius: 10px;">
+                    <h4 style="color: #0b4c61; margin-bottom: 15px;">
+                        <i class="material-icons">stabilization</i> Face Stability Settings
+                    </h4>
+                    <div class="mb-3">
+                        <label for="stable_time" style="font-size: 18px; font-weight: bold;">
+                            Stability Time (seconds):
+                        </label>
+                        <input type="number" id="stable_time" name="stable_time"
+                            value="{{ settings.stable_time }}" min="0.1" max="2.0" step="0.1"
+                            style="font-size: 18px; width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">
+                        <small style="color: #666;">How long face must remain stable before capture/recognition (0.1-2.0 seconds)</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="max_center_movement" style="font-size: 18px; font-weight: bold;">
+                            Maximum Center Movement (pixels):
+                        </label>
+                        <input type="number" id="max_center_movement" name="max_center_movement"
+                            value="{{ settings.max_center_movement }}" min="5" max="50" step="1"
+                            style="font-size: 18px; width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">
+                        <small style="color: #666;">Maximum allowed face movement while stabilizing (5-50 pixels)</small>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div style="text-align: center; margin-top: 20px;">
+                    <button type="submit" class="btn btn-success" style="font-size: 20px; padding: 10px 30px; margin-right: 10px;">
+                        <i class="material-icons">save</i> Save Settings
+                    </button>
+                    <a href="/" class="btn btn-secondary" style="font-size: 20px; padding: 10px 30px;">
+                        <i class="material-icons">home</i> Back to Home
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>
+

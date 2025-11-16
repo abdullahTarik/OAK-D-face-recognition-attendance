@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OAK-D Smart Attendance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@19.0.0/",
+    "react": "https://esm.sh/react@19.0.0",
+    "react/": "https://esm.sh/react@19.0.0/"
+  }
+}
+</script>
+    <link rel="stylesheet" href="/index.css">
+  </head>
+  <body class="bg-gray-900">
+    <div id="root"></div>
+    <script type="module">
+      const moduleCache = new Map();
+      const loadingModules = new Set();
+      
+      function resolvePath(importPath, fromPath) {
+        if (!importPath.startsWith('./') && !importPath.startsWith('../')) {
+          return importPath; // External module, leave as is
+        }
+        
+        const baseDir = fromPath.substring(0, fromPath.lastIndexOf('/') + 1);
+        const parts = (baseDir + importPath).split('/').filter(p => p && p !== '.');
+        const resolved = [];
+        for (const part of parts) {
+          if (part === '..') {
+            resolved.pop();
+          } else {
+            resolved.push(part);
+          }
+        }
+        let path = '/' + resolved.join('/');
+        // Don't add extension if it already has one
+        if (!path.match(/\.(tsx?|jsx?)$/)) {
+          path += '.tsx';
+        }
+        return path;
+      }
+      
+      // Try multiple extensions
+      async function tryFetchWithExtensions(basePath) {
+        const extensions = ['.tsx', '.ts', '.jsx', '.js'];
+        for (const ext of extensions) {
+          const path = basePath.replace(/\.(tsx?|jsx?)$/, '') + ext;
+          try {
+            const response = await fetch(path);
+            if (response.ok) {
+              return { response, path };
+            }
+          } catch (e) {
+            // Continue to next extension
+          }
+        }
+        return null;
+      }
+      
+      async function loadAndTransform(modulePath, fromPath = '') {
+        const resolved = resolvePath(modulePath, fromPath);
+        
+        // Check cache
+        if (moduleCache.has(resolved)) {
+          return moduleCache.get(resolved);
+        }
+        
+        // Prevent circular dependencies
+        if (loadingModules.has(resolved)) {
+          throw new Error(`Circular dependency detected: ${resolved}`);
+        }
+        loadingModules.add(resolved);
+        
+        try {
+          // Try to fetch with different extensions
+          const result = await tryFetchWithExtensions(resolved);
+          if (!result) {
+            throw new Error(`Cannot load module: ${resolved} (tried .tsx, .ts, .jsx, .js)`);
+          }
+          
+          const { response, path: actualPath } = result;
+          const code = await response.text();
+          
+          // Check if we got HTML (means Flask served index.html as fallback)
+          if (code.trim().startsWith('<!DOCTYPE html>') || code.trim().startsWith('<!doctype html>')) {
+            throw new Error(`File not found: ${resolved} (got HTML instead)`);
+          }
+          
+          const url = await compileModule(code, actualPath, resolved);
+          moduleCache.set(resolved, url);
+          loadingModules.delete(resolved);
+          return url;
+        } catch (err) {
+          loadingModules.delete(resolved);
+          console.error(`Error loading ${resolved}:`, err);
+          throw err;
+        }
+      }
+      
+      async function compileModule(code, filePath, cacheKey) {
+        // Extract all relative imports first
+        const importRegex = /from\s+['"](\.\/?[^'"]+)['"]/g;
+        const imports = [];
+        let match;
+        while ((match = importRegex.exec(code)) !== null) {
+          imports.push(match[1]);
+        }
+        
+        // Load all dependencies first
+        const importMap = new Map();
+        for (const importPath of imports) {
+          try {
+            const moduleUrl = await loadAndTransform(importPath, filePath);
+            importMap.set(importPath, moduleUrl);
+          } catch (err) {
+            console.warn(`Failed to load dependency ${importPath}:`, err);
+          }
+        }
+        
+        // Replace imports with blob URLs
+        let processed = code;
+        for (const [importPath, moduleUrl] of importMap) {
+          // Escape special regex characters
+          const escaped = importPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          processed = processed.replace(
+            new RegExp(`from\\s+['"]${escaped}['"]`, 'g'),
+            `from '${moduleUrl}'`
+          );
+        }
+        
+        // Transform TypeScript to JavaScript
+        const transformed = Babel.transform(processed, {
+          presets: [
+            ['react', { runtime: 'automatic' }],
+            ['typescript', { isTSX: true, allExtensions: true }]
+          ],
+          filename: filePath
+        }).code;
+        
+        // Create blob URL
+        const blob = new Blob([transformed], { type: 'application/javascript' });
+        return URL.createObjectURL(blob);
+      }
+      
+      async function loadApp() {
+        try {
+          const indexUrl = await loadAndTransform('/index.tsx', '/index.tsx');
+          await import(indexUrl);
+        } catch (err) {
+          console.error('Failed to load app:', err);
+          document.getElementById('root').innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #111827 0%, #1f2937 100%); color: white; flex-direction: column; gap: 1rem; padding: 2rem; text-align: center;">
+              <h2 style="font-size: 1.5rem; font-weight: bold; color: #ef4444;">Loading Error</h2>
+              <p style="color: #9ca3af;">${err.message}</p>
+              <p style="color: #6b7280; font-size: 0.875rem;">Check console (F12) for details</p>
+              <a href="/?old=1" style="color: #3b82f6; text-decoration: none; padding: 0.75rem 1.5rem; background: #1f2937; border: 1px solid #3b82f6; border-radius: 0.5rem; display: inline-block;">Use Old Template</a>
+            </div>
+          `;
+        }
+      }
+      
+      if (typeof Babel !== 'undefined') {
+        loadApp();
+      } else {
+        window.addEventListener('load', () => setTimeout(loadApp, 100));
+      }
+    </script>
+  </body>
+</html>

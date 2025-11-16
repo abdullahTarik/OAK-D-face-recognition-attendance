@@ -1,0 +1,8 @@
+{
+    "auto_attendance_interval_minutes": 15,
+    "nimgs": 10,
+    "pipeline_timeout": 15,
+    "stable_time": 0.4,
+    "max_center_movement": 15.0,
+    "match_distance_threshold": 0.5
+}

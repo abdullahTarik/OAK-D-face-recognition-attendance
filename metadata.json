@@ -1,0 +1,5 @@
+
+{
+  "name": "OAK-D Smart Attendance",
+  "description": "A web interface for a facial recognition-based attendance system using an OAK-D camera. It allows for user enrollment, manual and automatic attendance tracking, and system configuration."
+}
