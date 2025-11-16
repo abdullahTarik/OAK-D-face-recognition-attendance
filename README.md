@@ -1,5 +1,42 @@
-# Face Recognition Attendance System
+<div align="center">
 
+# OAK-D-FACE-RECOGNITION-ATTENDANCE
+
+<br/>
+
+_Seamless Recognition, Effortless Attendance, Limitless Possibilities_
+
+<br/>
+
+<img src="https://img.shields.io/github/last-commit/username/repo?label=last%20commit" />
+<img src="https://img.shields.io/badge/python-56.8%25-blue" />
+<img src="https://img.shields.io/badge/languages-4-blue" />
+
+<br/>
+
+_Built with the tools and technologies:_
+
+<br/>
+
+<img src="https://img.shields.io/badge/Flask-black?logo=flask&logoColor=white" />
+<img src="https://img.shields.io/badge/JSON-orange?logo=json&logoColor=white" />
+<img src="https://img.shields.io/badge/Markdown-000000?logo=markdown&logoColor=white" />
+<img src="https://img.shields.io/badge/npm-CB3837?logo=npm&logoColor=white" />
+<img src="https://img.shields.io/badge/scikit--learn-FF6F00?logo=scikitlearn&logoColor=white" />
+<img src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black" />
+
+<br/>
+
+<img src="https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=white" />
+<img src="https://img.shields.io/badge/XML-0060A0?logo=xml&logoColor=white" />
+<img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white" />
+<img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" />
+<img src="https://img.shields.io/badge/Vite-646cff?logo=vite&logoColor=white" />
+<img src="https://img.shields.io/badge/pandas-150458?logo=pandas&logoColor=white" />
+
+<br/><br/>
+
+</div>
 A modern, real-time face recognition attendance system built with OAK-D camera, Flask backend, and React frontend. The system uses advanced face embedding extraction for accurate recognition and provides a beautiful, responsive web interface for managing attendance and users.
 
 ![Face Recognition System](imgs/example.gif)
