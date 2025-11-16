@@ -73,7 +73,7 @@ Attendance Recording (CSV)
 
 ```bash
 git clone https://github.com/abdullahTarik/face-recognition-attendance
-cd ML
+cd face-recognition-attendance
 ```
 
 ### 2. Install Python Dependencies
