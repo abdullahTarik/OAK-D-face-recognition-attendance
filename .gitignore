@@ -22,6 +22,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+*.gitkeep
 
 # Face recognition models and embeddings
 *.pkl
