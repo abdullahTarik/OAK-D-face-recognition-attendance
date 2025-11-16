@@ -25,8 +25,8 @@ wheels/
 
 # Face recognition models and embeddings
 *.pkl
+!static/face_recognition_model.pkl  # Include this for backward compatibility
 static/embeddings/
-# Note: face_recognition_model.pkl is included for backward compatibility
 
 # Face images (user enrollment data - should not be in repo)
 static/faces/
